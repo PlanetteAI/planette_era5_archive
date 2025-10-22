@@ -11,7 +11,7 @@ This dataset can be used for:
 - **Training data-driven algorithms** aimed at emulating ERA5 weather/climate variability
 - **Multi-scale climate analysis** using different temporal aggregations
 
-The dataset includes **six temporal aggregations**: daily means, 7-day rolling means, 30-day rolling means, 90-day rolling means, monthly means, and 3-month means.
+The dataset includes **temporal aggregations**: daily means
 
 ## Variables
 
@@ -25,38 +25,63 @@ The dataset includes **six temporal aggregations**: daily means, 7-day rolling m
 | td2m                    | K         | 2 meter dew point temperature              |
 | ts                      | K         | Surface skin temperature                    |
 | sst                     | K         | Sea surface temperature                     |
+| pr                      | Kg/m*s²   | Daily total precipitation (please confirm units) |
+| ps                      | hPa       | Surface pressure                            |
 | u10m                    | m/s       | 10 meter zonal wind                         |
 | v10m                    | m/s       | 10 meter meridional wind                    |
 | u100m                   | m/s       | 100 meter zonal wind                        |
 | v100m                   | m/s       | 100 meter meridional wind                   |
+| u10                     | m/s       | 10 m zonal wind (alias of u10m? please confirm) |
+| v10                     | m/s       | 10 m meridional wind (alias of v10m? please confirm) |
 | slp                     | hPa       | Sea level pressure                          |
 | tcwv                    | kg/m²     | Total column water vapor                    |
+| olr                     | W/m²      | Outgoing longwave radiation                 |
+| tau_x                   | N/m²      | Surface wind stress (zonal)                 |
+| tau_y                   | N/m²      | Surface wind stress (meridional)            |
+| sic                     | unitless  | Sea ice concentration (0–1)                 |
+| sss                     | PSU       | Sea surface salinity                        |
+| rsst                    | K         | Relative/rolling SST (please confirm definition) |
 | cape                    | J/kg      | Convective available potential energy       |
 | cdd                     | K·day     | Cooling degree days                         |
 | hdd                     | K·day     | Heating degree days                         |
+| swv_1                   | m³/m³      | Volumetric soil water layer 1 |
+| swv_2                   | m³/m³      | Volumetric soil water layer 2 |
+| swv_3                   | m³/m³      | Volumetric soil water layer 3 |
+| swv_4                   | m³/m³      | Volumetric soil water layer 4 |
 
 ### Atmospheric Variables at Pressure Levels
 
 | Variable                | Units     | Pressure Levels (hPa)     | Description                                 |
 |-------------------------|-----------|---------------------------|---------------------------------------------|
-| w                       | Pa/s      | 850, 500, 200, 50        | Vertical velocity                           |
-| z                       | m²/s²     | 850, 500, 200, 50        | Geopotential height                         |
+| u                       | m/s       | 100, 200, 500, 700, 850  | Zonal wind at pressure levels               |
+| v                       | m/s       | 100, 200, 500, 700, 850  | Meridional wind at pressure levels          |
+| t                       | K         | 50, 100, 200, 500, 700, 850 | Temperature at pressure levels            |
+| q                       | kg/kg     | 10, 50, 200, 500, 850    | Specific humidity at pressure levels        |
+| w                       | Pa/s      | 10, 50, 200, 500, 850    | Vertical velocity at pressure levels        |
+| z                       | m²/s²     | 10, 50, 200, 300, 500, 700, 850 | Geopotential (geopotential height via g) |
+
+### Derived/diagnostic variables
+
+| Variable   | Units    | Description |
+|------------|----------|-------------|
+| vp200      | m²/s     | Velocity potential at 200 hPa |
+| z300m700   | m        | Geopotential thickness 300–700 hPa (m²/s²) |
+| div_q850   | TBD      | Divergence of specific humidity at 850 hPa (please confirm units/definition) |
+| ehf100      | TBD      | eddy heat flux at 100 hPa |
+| rsst      | TBD      | relative sst (sst minus the 20S-20N average) |
+| sf_tau     | TBD      | streamfunction of surface wind stress |
 
 ## Temporal Aggregations
 
 | Aggregation Type        | Description                                          | Example                                      |
 |-------------------------|------------------------------------------------------|----------------------------------------------|
 | **day**                 | Daily means (24-hour average)                       | Average of all 24 hours for 2020-01-01     |
-| **7day**                | 7-day rolling means                                  | Average of 2020-01-01 to 2020-01-07        |
-| **30day**               | 30-day rolling means                                 | Average of 2020-01-01 to 2020-01-30              |
-| **90day**               | 90-day rolling means                                 | Average of 2020-01-01 to 2020-03-30              |
-| **month**               | Monthly means                                        | Average of all days in January 2020        |
-| **3month**              | 3-month means                                        | Average of all days in january, feburay, and march of 2020             |
+
 
 ## Temporal Coverage
 
-- **Time Period:** 1940–present
-- **Update Frequency:** Regular updates as new ERA5 data becomes available
+- **Time Period:** 1940–2025
+- **Update Frequency:** Currently data spans 1940-2025, but will be updated to have latency of ~1-2 weeks in the near future
 
 ## Spatial Coverage
 
@@ -74,14 +99,9 @@ The dataset includes **six temporal aggregations**: daily means, 7-day rolling m
 ```
 s3://planettebaikal/reanalysis/era5/prod/
 ├── {variable}/
-│   ├── day/
-│   ├── 7day/
-│   ├── 30day/
-│   ├── 90day/
-│   ├── month/
-│   └── 3month/
-│       └── 0p25latx0p25lon/
-│           └── era5_{variable}_{frequency}_0p25latx0p25lon.zarr
+│   └── {frequency}/
+│       └── {grid}/
+│           └── era5_{variable}_{frequency}_{grid}.zarr
 ```
 
 **Example paths:**
