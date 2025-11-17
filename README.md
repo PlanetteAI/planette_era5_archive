@@ -11,7 +11,7 @@ This dataset can be used for:
 - **Training data-driven algorithms** aimed at emulating ERA5 weather/climate variability
 - **Multi-scale climate analysis** using different temporal aggregations
 
-The dataset includes **temporal aggregations**: daily means
+The dataset includes **temporal aggregations**: Average daily, 7 day, month, 3 month periods
 
 ## Variables
 
@@ -19,46 +19,45 @@ The dataset includes **temporal aggregations**: daily means
 
 | Variable                | Units     | Description                                 |
 |-------------------------|-----------|---------------------------------------------|
-| t2m                     | K         | Daily mean 2 meter temperature              |
-| t2m_max                 | K         | Daily maximum 2 meter temperature          |
-| t2m_min                 | K         | Daily minimum 2 meter temperature          |
-| td2m                    | K         | 2 meter dew point temperature              |
-| ts                      | K         | Surface skin temperature                    |
-| sst                     | K         | Sea surface temperature                     |
-| pr                      | Kg/m*s²   | Daily total precipitation (please confirm units) |
-| ps                      | hPa       | Surface pressure                            |
-| u10m                    | m/s       | 10 meter zonal wind                         |
-| v10m                    | m/s       | 10 meter meridional wind                    |
-| u100m                   | m/s       | 100 meter zonal wind                        |
-| v100m                   | m/s       | 100 meter meridional wind                   |
-| u10                     | m/s       | 10 m zonal wind (alias of u10m? please confirm) |
-| v10                     | m/s       | 10 m meridional wind (alias of v10m? please confirm) |
-| slp                     | hPa       | Sea level pressure                          |
-| tcwv                    | kg/m²     | Total column water vapor                    |
-| olr                     | W/m²      | Outgoing longwave radiation                 |
-| tau_x                   | N/m²      | Surface wind stress (zonal)                 |
-| tau_y                   | N/m²      | Surface wind stress (meridional)            |
-| sic                     | unitless  | Sea ice concentration (0–1)                 |
-| sss                     | PSU       | Sea surface salinity                        |
-| rsst                    | K         | Relative/rolling SST (please confirm definition) |
 | cape                    | J/kg      | Convective available potential energy       |
 | cdd                     | K·day     | Cooling degree days                         |
 | hdd                     | K·day     | Heating degree days                         |
-| swv_1                   | m³/m³      | Volumetric soil water layer 1 |
-| swv_2                   | m³/m³      | Volumetric soil water layer 2 |
-| swv_3                   | m³/m³      | Volumetric soil water layer 3 |
-| swv_4                   | m³/m³      | Volumetric soil water layer 4 |
+| olr                     | W/m²      | Outgoing longwave radiation                 |
+| pr                      | Kg/m²*s-1 | Mean total Precipiation Rate                |
+| ps                      | Pa       | Surface pressure                            |
+| rsst                    | K         | Relative SST (please confirm definition) |
+| sic                     | unitless  | Sea ice concentration (0–1)                 |
+| slp                     | Pa       | Sea level pressure                          |
+| sst                     | K         | Sea surface temperature                     |
+| swv_1                   | m³/m³     | Volumetric soil water layer 1               |
+| swv_2                   | m³/m³     | Volumetric soil water layer 2               |
+| swv_3                   | m³/m³     | Volumetric soil water layer 3               |
+| swv_4                   | m³/m³     | Volumetric soil water layer 4               |
+| t2m                     | K         | Daily mean 2 meter temperature              |
+| t2m_max                 | K         | Daily maximum 2 meter temperature           |
+| t2m_min                 | K         | Daily minimum 2 meter temperature           |
+| tau_x                   | N/m²      | Surface wind stress (zonal)                 |
+| tau_y                   | N/m²      | Surface wind stress (meridional)            |
+| tcwv                    | kg/m²     | Total column water vapor                    |
+| td2m                    | K         | 2 meter dew point temperature               |
+| ts                      | K         | Surface skin temperature                    |
+| u10                     | m/s       | 10 m zonal wind |
+| u10m                    | m/s       | 10 meter zonal wind                         |
+| u100m                   | m/s       | 100 meter zonal wind                        |
+| v10                     | m/s       | 10 m meridional wind  |
+| v10m                    | m/s       | 10 meter meridional wind                    |
+| v100m                   | m/s       | 100 meter meridional wind                   |
 
 ### Atmospheric Variables at Pressure Levels
 
 | Variable                | Units     | Pressure Levels (hPa)     | Description                                 |
 |-------------------------|-----------|---------------------------|---------------------------------------------|
-| u                       | m/s       | 100, 200, 500, 700, 850  | Zonal wind at pressure levels               |
-| v                       | m/s       | 100, 200, 500, 700, 850  | Meridional wind at pressure levels          |
+| u                       | m/s       | 10, 100, 200, 500, 700, 850  | Zonal wind at pressure levels               |
+| v                       | m/s       | 10, 100, 200, 500, 700, 850  | Meridional wind at pressure levels          |
 | t                       | K         | 50, 100, 200, 500, 700, 850 | Temperature at pressure levels            |
 | q                       | kg/kg     | 10, 50, 200, 500, 850    | Specific humidity at pressure levels        |
 | w                       | Pa/s      | 10, 50, 200, 500, 850    | Vertical velocity at pressure levels        |
-| z                       | m²/s²     | 10, 50, 200, 300, 500, 700, 850 | Geopotential (geopotential height via g) |
+| z                       | m²/s²     | 10, 50, 200, 300, 500, 700, 850, 1000 | Geopotential |
 
 ### Derived/diagnostic variables
 
@@ -75,13 +74,17 @@ The dataset includes **temporal aggregations**: daily means
 
 | Aggregation Type        | Description                                          | Example                                      |
 |-------------------------|------------------------------------------------------|----------------------------------------------|
-| **day**                 | Daily means (24-hour average)                       | Average of all 24 hours for 2020-01-01     |
+| **day**                 | Daily means (24-hour average based on UTC)                       | 2020-01-01 is average of all UTC hours during this day|
+| **7day**                 | 7 day average of daily means                       |2020-01-01 is average of 7 days from 2020-01-01 to 2020-01-07 (inclusive)|
+| **month**                 | Average of all daily means in calendar month                       |2020-01-01 is average of 31 days from 2020-01-01 to 2020-01-31 (inclusive)|
+| **3month**                 | Average of all daily means in 3 calendar month period  |2020-01-01 is average of all days between 2020-01-01 and 2020-03-31 (inclusive)|
+
 
 
 ## Temporal Coverage
 
 - **Time Period:** 1940–2025
-- **Update Frequency:** Currently data spans 1940-2025, but will be updated to have latency of ~1-2 weeks in the near future
+- **Update Frequency:** Latency of ~1 month
 
 ## Spatial Coverage
 
@@ -107,7 +110,7 @@ s3://planettebaikal/reanalysis/era5/prod/
 **Example paths:**
 - Daily t2m: `s3://planettebaikal/reanalysis/era5/prod/t2m/day/0p25latx0p25lon/era5_t2m_day_0p25latx0p25lon.zarr`
 - Monthly SLP: `s3://planettebaikal/reanalysis/era5/prod/slp/month/0p25latx0p25lon/era5_slp_month_0p25latx0p25lon.zarr`
-- 7-day wind: `s3://planettebaikal/reanalysis/era5/prod/u10m/7day/0p25latx0p25lon/era5_u10m_7day_0p25latx0p25lon.zarr`
+- 7-day 10 meter wind: `s3://planettebaikal/reanalysis/era5/prod/u10m/7day/0p25latx0p25lon/era5_u10m_7day_0p25latx0p25lon.zarr`
 
 ## Data Processing
 
@@ -117,7 +120,6 @@ Daily mean files are created by averaging the hourly ERA5 data over all 24 hours
 ### Rolling Means
 Rolling means are created by averaging the daily data over the specified time window. For example:
 - **7-day rolling mean** for 2020-01-07 = average of daily data from 2020-01-01 to 2020-01-07
-- **30-day rolling mean** for 2020-01-30 = average of daily data from 2020-01-01 to 2020-01-30
 
 ### Monthly and Seasonal Means
 - **Monthly means** = average of all daily values within a calendar month
