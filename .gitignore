@@ -51,4 +51,4 @@ Thumbs.db
 
 # Temporary files
 *.tmp
-*.temp 
+*.temp c3s_to_ASDI/
