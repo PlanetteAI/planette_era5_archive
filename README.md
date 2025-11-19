@@ -94,13 +94,13 @@ The dataset includes **temporal aggregations**: Average daily, 7 day, month, 3 m
 ## Data Format and Access
 
 - **Format:** Zarr (written with [icechunk](https://github.com/earth-mover/icechunk))
-- **Storage:** Amazon S3 (`s3://planettebaikal/reanalysis/era5/prod/`)
+- **Storage:** Amazon S3 (`s3://planette-era5/era5`)
 - **Organization:** Data is organized by variable, temporal aggregation, and spatial resolution
 
 ### Data Structure
 
 ```
-s3://planettebaikal/reanalysis/era5/prod/
+s3://planette-era5/era5/
 ├── {variable}/
 │   └── {frequency}/
 │       └── {grid}/
@@ -108,9 +108,9 @@ s3://planettebaikal/reanalysis/era5/prod/
 ```
 
 **Example paths:**
-- Daily t2m: `s3://planettebaikal/reanalysis/era5/prod/t2m/day/0p25latx0p25lon/era5_t2m_day_0p25latx0p25lon.zarr`
-- Monthly SLP: `s3://planettebaikal/reanalysis/era5/prod/slp/month/0p25latx0p25lon/era5_slp_month_0p25latx0p25lon.zarr`
-- 7-day 10 meter wind: `s3://planettebaikal/reanalysis/era5/prod/u10m/7day/0p25latx0p25lon/era5_u10m_7day_0p25latx0p25lon.zarr`
+- Daily t2m: `s3://planette-era5/era5/t2m/day/0p25latx0p25lon/era5_t2m_day_0p25latx0p25lon.zarr`
+- Monthly SLP: `s3://planette-era5/era5/slp/month/0p25latx0p25lon/era5_slp_month_0p25latx0p25lon.zarr`
+- 7-day 10 meter wind: `s3://planette-era5/prod/u10m/7day/0p25latx0p25lon/era5_u10m_7day_0p25latx0p25lon.zarr`
 
 ## Data Processing
 
@@ -145,8 +145,8 @@ import matplotlib.pyplot as plt
 # get the bucket and prefix
 variable = "t2m"  # 2-meter temperature (K)
 frequency = "day"  # daily means
-bucket = "planettebaikal"
-prefix = f"reanalysis/era5/prod/{variable}/{frequency}/0p25latx0p25lon/era5_{variable}_{frequency}_0p25latx0p25lon.zarr"
+bucket = "planette-era5"
+prefix = f"era5/{variable}/{frequency}/0p25latx0p25lon/era5_{variable}_{frequency}_0p25latx0p25lon.zarr"
 
 # Get icechunk session and repo
 storage = ic.s3_storage(bucket=bucket, prefix=prefix, from_env=True)
