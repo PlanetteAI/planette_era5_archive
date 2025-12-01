@@ -25,7 +25,6 @@ The dataset includes **temporal aggregations**: Average daily, 7 day, month, 3 m
 | olr                     | W/m²      | Outgoing longwave radiation                 |
 | pr                      | Kg/m²*s-1 | Mean total Precipiation Rate                |
 | ps                      | Pa       | Surface pressure                            |
-| rsst                    | K         | Relative SST (please confirm definition) |
 | sic                     | unitless  | Sea ice concentration (0–1)                 |
 | slp                     | Pa       | Sea level pressure                          |
 | sst                     | K         | Sea surface temperature                     |
@@ -59,16 +58,6 @@ The dataset includes **temporal aggregations**: Average daily, 7 day, month, 3 m
 | w                       | Pa/s      | 10, 50, 200, 500, 850    | Vertical velocity at pressure levels        |
 | z                       | m²/s²     | 10, 50, 200, 300, 500, 700, 850, 1000 | Geopotential |
 
-### Derived/diagnostic variables
-
-| Variable   | Units    | Description |
-|------------|----------|-------------|
-| vp200      | m²/s     | Velocity potential at 200 hPa |
-| z300m700   | m        | Geopotential thickness 300–700 hPa (m²/s²) |
-| div_q850   | TBD      | Divergence of specific humidity at 850 hPa (please confirm units/definition) |
-| ehf100      | TBD      | eddy heat flux at 100 hPa |
-| rsst      | TBD      | relative sst (sst minus the 20S-20N average) |
-| sf_tau     | TBD      | streamfunction of surface wind stress |
 
 ## Temporal Aggregations
 
