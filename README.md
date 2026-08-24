@@ -50,12 +50,12 @@ The dataset includes **temporal aggregations**: Average daily, 7 day, month, 3 m
 
 | Variable                | Units     | Pressure Levels (hPa)     | Description                                 |
 |-------------------------|-----------|---------------------------|---------------------------------------------|
-| u                       | m/s       | 10, 100, 200, 500, 700, 850  | Zonal wind at pressure levels               |
-| v                       | m/s       | 10, 100, 200, 500, 700, 850  | Meridional wind at pressure levels          |
-| t                       | K         | 50, 100, 200, 500, 700, 850 | Temperature at pressure levels            |
+| u                       | m/s       | 10, 50, 100, 200, 500, 700, 850  | Zonal wind at pressure levels               |
+| v                       | m/s       | 10, 50, 100, 200, 500, 700, 850  | Meridional wind at pressure levels          |
+| t                       | K         | 10, 50, 100, 200, 500, 700, 850 | Temperature at pressure levels            |
 | q                       | kg/kg     | 10, 50, 200, 500, 850    | Specific humidity at pressure levels        |
 | w                       | Pa/s      | 10, 50, 200, 500, 850    | Vertical velocity at pressure levels        |
-| z                       | m²/s²     | 10, 50, 200, 300, 500, 700, 850, 1000 | Geopotential |
+| z                       | m²/s²     | 10, 50, 200, 300, 500, 700, 850 | Geopotential |
 
 - Variables at unavailable pressure levels are filled with NaNs.  
 
