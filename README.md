@@ -32,6 +32,7 @@ The dataset includes **temporal aggregations**: Average daily, 7 day, month, 3 m
 | swv_2                   | m³/m³     | Volumetric soil water layer 2               |
 | swv_3                   | m³/m³     | Volumetric soil water layer 3               |
 | swv_4                   | m³/m³     | Volumetric soil water layer 4               |
+| snd                     | m         | Snow depth water equivalent.                |
 | t2m                     | K         | Daily mean 2 meter temperature              |
 | t2m_max                 | K         | Daily maximum 2 meter temperature           |
 | t2m_min                 | K         | Daily minimum 2 meter temperature           |
@@ -40,10 +41,8 @@ The dataset includes **temporal aggregations**: Average daily, 7 day, month, 3 m
 | tcwv                    | kg/m²     | Total column water vapor                    |
 | td2m                    | K         | 2 meter dew point temperature               |
 | ts                      | K         | Surface skin temperature                    |
-| u10                     | m/s       | 10 m zonal wind |
 | u10m                    | m/s       | 10 meter zonal wind                         |
 | u100m                   | m/s       | 100 meter zonal wind                        |
-| v10                     | m/s       | 10 m meridional wind  |
 | v10m                    | m/s       | 10 meter meridional wind                    |
 | v100m                   | m/s       | 100 meter meridional wind                   |
 
@@ -57,6 +56,8 @@ The dataset includes **temporal aggregations**: Average daily, 7 day, month, 3 m
 | q                       | kg/kg     | 10, 50, 200, 500, 850    | Specific humidity at pressure levels        |
 | w                       | Pa/s      | 10, 50, 200, 500, 850    | Vertical velocity at pressure levels        |
 | z                       | m²/s²     | 10, 50, 200, 300, 500, 700, 850, 1000 | Geopotential |
+
+- Variables at unavailable pressure levels are filled with NaNs.  
 
 
 ## Temporal Aggregations
@@ -72,7 +73,7 @@ The dataset includes **temporal aggregations**: Average daily, 7 day, month, 3 m
 
 ## Temporal Coverage
 
-- **Time Period:** 1940–2025
+- **Time Period:** 1940–present
 - **Update Frequency:** Latency of ~1 month
 
 ## Spatial Coverage
@@ -83,23 +84,17 @@ The dataset includes **temporal aggregations**: Average daily, 7 day, month, 3 m
 ## Data Format and Access
 
 - **Format:** Zarr (written with [icechunk](https://github.com/earth-mover/icechunk))
-- **Storage:** Amazon S3 (`s3://planette-era5/era5`)
-- **Organization:** Data is organized by variable, temporal aggregation, and spatial resolution
+- **Storage:** Amazon S3 (`s3://planette-era5/ERA5_ic/`)
+- **Organization:** Data is organized by frequency and variable groups (single / pressure)
 
 ### Data Structure
 
 ```
-s3://planette-era5/era5/
-├── {variable}/
-│   └── {frequency}/
-│       └── {grid}/
-│           └── era5_{variable}_{frequency}_{grid}.zarr
+s3://planette-era5/ERA5_ic/
+├── {frequency}/
+│   └── {variable group}/
+│       └── 0p25latx0p25lon/ 
 ```
-
-**Example paths:**
-- Daily t2m: `s3://planette-era5/era5/t2m/day/0p25latx0p25lon/era5_t2m_day_0p25latx0p25lon.zarr`
-- Monthly SLP: `s3://planette-era5/era5/slp/month/0p25latx0p25lon/era5_slp_month_0p25latx0p25lon.zarr`
-- 7-day 10 meter wind: `s3://planette-era5/prod/u10m/7day/0p25latx0p25lon/era5_u10m_7day_0p25latx0p25lon.zarr`
 
 ## Data Processing
 
@@ -135,17 +130,18 @@ import matplotlib.pyplot as plt
 variable = "t2m"  # 2-meter temperature (K)
 frequency = "day"  # daily means
 bucket = "planette-era5"
-prefix = f"era5/{variable}/{frequency}/0p25latx0p25lon/era5_{variable}_{frequency}_0p25latx0p25lon.zarr"
+prefix = f"ERA5_ic/{frequency}"  
+grou = "single/0p25latx0p25lon"      \# or pressure  
 
 # Get icechunk session and repo
-storage = ic.s3_storage(bucket=bucket, prefix=prefix, from_env=True)
+storage = ic.s3_storage(bucket=bucket, prefix=prefix, region="us-east-2", anonymous=True)
 repo = ic.Repository.open(storage=storage)
 
 # return readonly session
 session = repo.readonly_session("main")
 
 # open the data with xarray
-ds = xr.open_dataset(session.store, engine="zarr", consolidated=False, decode_timedelta=True, chunks={})
+ds = xr.open_zarr(session.store, group=group, consolidated=False, decode_timedelta=True, chunks={})
 
 # Explore the data
 print(ds)
