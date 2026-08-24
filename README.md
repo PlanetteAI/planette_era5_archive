@@ -23,7 +23,7 @@ The dataset includes **temporal aggregations**: Average daily, 7 day, month, 3 m
 | cdd                     | K·day     | Cooling degree days                         |
 | hdd                     | K·day     | Heating degree days                         |
 | olr                     | W/m²      | Outgoing longwave radiation                 |
-| pr                      | Kg/m²*s<sup>-1</sup> | Mean total Precipiation Rate                |
+| pr                      | Kg/m² s<sup>-1</sup> | Mean total Precipiation Rate                |
 | ps                      | Pa       | Surface pressure                            |
 | sic                     | unitless  | Sea ice concentration (0–1)                 |
 | slp                     | Pa       | Sea level pressure                          |
